@@ -3,259 +3,449 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DTU - Taquilla Digital Interactiva</title>
-    <link href="https://fonts.googleapis.com/css2?family=Teko:wght@600;700&family=Roboto+Condensed:wght@400;700&display=swap" rel="stylesheet">
+    <title>DTU - Desastre Total Ultraviolento (Taquilla Digital Oficial)</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;700&family=Teko:wght@500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <style>
+        /* === VARIABLES Y RESET === */
         :root {
-            --primary: #990000;
-            --dark: #050505;
-            --gray: #1a1a1a;
-            --text: #ffffff;
+            --primary: #a10000;
+            --primary-bright: #ff1111;
+            --accent: #a15d38;
+            --dark: #070707;
+            --light: #d8d8d8;
+            --gray: #222222;
+            --glass: rgba(0, 0, 0, 0.7);
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { 
-            background-color: var(--dark); 
-            color: var(--text); 
+        * { margin: 0; padding: 0; box-sizing: border-box; scroll-behavior: smooth; }
+
+        body {
             font-family: 'Roboto Condensed', sans-serif;
+            background-color: var(--dark);
+            color: var(--light);
+            line-height: 1.4;
             overflow-x: hidden;
         }
 
-        /* --- HEADER --- */
-        header {
-            background: linear-gradient(to bottom, #000, transparent);
-            padding: 20px;
-            text-align: center;
-            border-bottom: 3px solid var(--primary);
-        }
-        .logo { font-family: 'Teko', sans-serif; font-size: 50px; line-height: 1; color: var(--primary); text-transform: uppercase; }
-        .logo span { color: white; }
+        h1, h2, h3 { font-family: 'Teko', sans-serif; text-transform: uppercase; letter-spacing: 1.5px; }
+        a { text-decoration: none; color: var(--light); transition: all 0.3s ease; }
+        a:hover { color: var(--primary); }
 
-        /* --- CONTENEDOR PRINCIPAL --- */
-        .container {
-            max-width: 1000px;
-            margin: 20px auto;
-            padding: 20px;
+        /* === NAVEGACIÓN === */
+        header {
+            background-color: #000;
+            padding: 15px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 4px solid #000;
+            box-shadow: 0 5px 20px rgba(161, 0, 0, 0.4);
+            flex-wrap: wrap;
+        }
+
+        .logo { font-family: 'Teko', sans-serif; font-size: 32px; font-weight: 700; color: var(--primary); letter-spacing: 2px; }
+        .logo span { color: #fff; font-size: 16px; vertical-align: middle; letter-spacing: 1px; }
+
+        nav ul { list-style: none; display: flex; gap: 20px; }
+        nav ul li a { font-weight: bold; font-size: 15px; letter-spacing: 1px; }
+
+        .btn-header {
+            background-color: #000; color: var(--primary-bright); padding: 8px 15px; font-family: 'Teko', sans-serif;
+            font-size: 16px; border: 2px solid var(--primary-bright); cursor: pointer;
+            box-shadow: 0 0 10px var(--primary-bright);
+        }
+        .btn-header:hover { background-color: var(--primary-bright); color: #000; }
+
+        /* === HERO SECTION === */
+        .hero {
+            min-height: 80vh;
+            background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 1)), url('https://images.unsplash.com/photo-1541336032412-2048a678540d?q=80&w=1920&auto=format&fit=crop'); 
+            background-size: cover; background-position: center; display: flex; flex-direction: column;
+            justify-content: center; align-items: center; text-align: center; padding: 120px 20px 40px 20px;
+        }
+
+        .hero h1 { font-size: 5.5rem; color: #fff; text-shadow: 0 0 15px var(--primary-bright); margin-bottom: 10px; line-height: 0.9; }
+        .hero p { font-size: 1.6rem; margin-bottom: 40px; max-width: 700px; font-weight: bold; color: #ccc; }
+
+        .btn-main {
+            background-color: #000; border: 4px solid var(--primary); color: var(--primary); padding: 15px 40px;
+            font-family: 'Teko', sans-serif; font-size: 24px; cursor: pointer; transition: all 0.3s ease;
+            box-shadow: 0 0 15px var(--primary);
+        }
+        .btn-main:hover { background-color: var(--primary); color: #fff; box-shadow: 0 0 30px var(--primary); }
+
+        .section-title { font-size: 3.5rem; margin-bottom: 50px; color: #fff; border-bottom: 6px double var(--gray); display: inline-block; padding-bottom: 10px; text-align: center; width: 100%;}
+        .container { padding: 80px 5%; max-width: 1400px; margin: 0 auto; }
+
+        /* === TAQUILLA INTERACTIVA (BASADA EN TU IMAGEN) === */
+        .taquilla-layout {
             display: grid;
             grid-template-columns: 1fr 350px;
             gap: 30px;
+            align-items: start;
         }
 
-        @media (max-width: 850px) {
-            .container { grid-template-columns: 1fr; }
-        }
-
-        /* --- MAPA DE ASIENTOS --- */
-        .card {
-            background: var(--gray);
+        .arena-wrapper {
+            background-color: #0a0a0a;
+            border: 3px solid #333;
+            border-radius: 8px;
             padding: 20px;
-            border-radius: 4px;
-            border: 1px solid #333;
+            overflow-x: auto; /* Permite mover el mapa en celular */
+            box-shadow: inset 0 0 50px rgba(0,0,0,0.8);
         }
 
-        h2 { font-family: 'Teko', sans-serif; font-size: 32px; margin-bottom: 15px; text-transform: uppercase; color: var(--primary); }
-
-        .ring-area {
-            background: #111;
-            height: 120px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border: 4px solid var(--primary);
-            margin-bottom: 40px;
+        /* Mapa de la Arena (800x600 para dar espacio al centro) */
+        .arena-map {
+            min-width: 800px;
+            height: 650px;
             position: relative;
-            font-family: 'Teko';
-            font-size: 24px;
-            box-shadow: 0 0 20px rgba(153, 0, 0, 0.3);
+            margin: 0 auto;
+            background-image: radial-gradient(#222 1px, transparent 1px);
+            background-size: 20px 20px;
         }
 
-        .seats-grid {
-            display: grid;
-            grid-template-columns: repeat(10, 1fr);
-            gap: 10px;
-            justify-items: center;
-        }
-
-        .seat {
-            width: 25px;
-            height: 25px;
-            background: #444;
-            border-radius: 4px;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-
-        .seat:hover { background: #666; transform: scale(1.2); }
-        .seat.selected { background: var(--primary); box-shadow: 0 0 10px var(--primary); }
-        .seat.occupied { background: #111; cursor: not-allowed; opacity: 0.3; }
-
-        .legend {
+        /* El Ring al centro */
+        .ring {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 220px;
+            height: 220px;
+            background-color: #000;
+            border: 5px solid #fff;
+            box-shadow: 0 0 30px var(--primary);
             display: flex;
             justify-content: center;
-            gap: 20px;
-            margin-top: 20px;
-            font-size: 14px;
+            align-items: center;
+            z-index: 10;
         }
-        .legend-item { display: flex; align-items: center; gap: 5px; }
-
-        /* --- SIDEBAR DE PAGO --- */
-        .summary-card {
-            position: sticky;
-            top: 20px;
-            height: fit-content;
+        .ring-poster {
+            width: 90%; height: 90%;
+            background: url('https://placehold.co/400x400/1a1a1a/a10000?text=DTU+RING&font=Roboto Condensed') center/cover;
+            border: 2px solid #444;
         }
 
-        .price-list { list-style: none; margin: 20px 0; border-top: 1px solid #333; padding-top: 15px; }
-        .price-item { display: flex; justify-content: space-between; margin-bottom: 10px; }
-        
-        .total {
-            font-size: 40px;
-            font-family: 'Teko';
-            color: var(--primary);
-            text-align: right;
-            margin: 10px 0;
+        /* Bloques de asientos */
+        .seat-block {
+            position: absolute;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+        .seat-row {
+            display: flex;
+            gap: 5px;
+            justify-content: center;
         }
 
-        button {
-            width: 100%;
-            padding: 15px;
-            background: var(--primary);
-            color: white;
-            border: none;
-            font-family: 'Teko';
-            font-size: 24px;
+        .block-top { top: 20px; left: 50%; transform: translateX(-50%); }
+        .block-bottom { bottom: 20px; left: 50%; transform: translateX(-50%); }
+        .block-left { top: 50%; left: 40px; transform: translateY(-50%) rotate(-90deg); }
+        .block-right { top: 50%; right: 40px; transform: translateY(-50%) rotate(90deg); }
+
+        /* Los Asientos */
+        .seat {
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
             cursor: pointer;
-            text-transform: uppercase;
-            transition: 0.3s;
+            border: 1px solid rgba(255,255,255,0.2);
+            transition: 0.2s;
+        }
+        .seat:hover { transform: scale(1.3); z-index: 100; border-color: #fff; }
+        
+        /* Colores según la imagen DTU */
+        .fila-1 { background-color: #00ff00; } /* Primera - Verde */
+        .fila-2 { background-color: #ff0000; } /* Segunda - Rojo */
+        .fila-3 { background-color: #0000ff; } /* Tercera - Azul */
+        .fila-4 { background-color: #ffff00; } /* Cuarta - Amarillo */
+        .gral { background-color: #dddddd; }   /* General - Blanco/Gris */
+        
+        .seat.selected { 
+            background-color: #fff !important; 
+            box-shadow: 0 0 15px #fff; 
+            border: 2px solid #000;
+        }
+        .seat.occupied { opacity: 0.2; cursor: not-allowed; }
+
+        /* Panel de Pago (Derecha) */
+        .checkout-panel {
+            background-color: #111;
+            border: 3px solid var(--primary);
+            padding: 25px;
+            position: sticky;
+            top: 90px;
+        }
+        .checkout-panel h3 { font-size: 28px; margin-bottom: 20px; border-bottom: 1px solid #333; padding-bottom: 10px; }
+        
+        .leyenda { margin-bottom: 20px; font-size: 14px; }
+        .leyenda-item { display: flex; align-items: center; gap: 10px; margin-bottom: 5px; }
+        .color-box { width: 15px; height: 15px; border-radius: 3px; }
+
+        .ticket-list { list-style: none; margin: 20px 0; min-height: 50px; font-size: 15px; color: #aaa; }
+        .ticket-item { display: flex; justify-content: space-between; margin-bottom: 5px; color: #fff; }
+        
+        .total-box {
+            font-family: 'Teko'; font-size: 45px; color: var(--primary-bright);
+            text-align: right; border-top: 2px dashed #444; margin-top: 20px; padding-top: 10px; line-height: 1;
         }
 
-        button:hover { background: #cc0000; letter-spacing: 2px; }
-
-        /* --- MODAL SIMULACIÓN --- */
-        #modal {
-            display: none;
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.9);
-            z-index: 100;
-            place-items: center;
+        .btn-comprar {
+            width: 100%; background-color: var(--primary); color: #fff; border: none;
+            padding: 15px; font-family: 'Teko'; font-size: 26px; cursor: pointer; margin-top: 20px; transition: 0.3s;
         }
+        .btn-comprar:hover { background-color: var(--primary-bright); letter-spacing: 2px; }
 
-        .modal-content {
-            background: var(--gray);
-            padding: 40px;
-            text-align: center;
-            border: 2px solid var(--primary);
-            max-width: 400px;
+        /* === ROSTER Y TIENDA === */
+        .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; }
+        .card, .product { background-color: #111; border: 2px solid #333; text-align: center; padding-bottom: 20px; }
+        .card img, .product img { width: 100%; height: 300px; object-fit: cover; }
+        .card h3, .product h3 { font-size: 2rem; margin-top: 15px; }
+        .price { font-size: 1.8rem; color: var(--primary-bright); font-weight: bold; margin: 10px 0; }
+        .btn-cart { background: #222; color: #fff; border: 2px solid #555; padding: 10px 20px; cursor: pointer; font-family: 'Teko'; font-size: 20px; transition: 0.3s;}
+        .btn-cart:hover { border-color: var(--primary); color: var(--primary); }
+
+        /* === MODAL QR === */
+        #qrModal {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.9); z-index: 2000; justify-content: center; align-items: center;
         }
+        .modal-content { background: #111; padding: 40px; text-align: center; border: 3px solid #00ff00; width: 90%; max-width: 400px; }
+        .modal-content h2 { color: #00ff00; font-size: 40px; margin-bottom: 10px; }
+        .modal-content img { width: 200px; height: 200px; margin: 20px 0; background: #fff; padding: 10px; }
 
-        .qr-mock {
-            width: 200px;
-            height: 200px;
-            background: white;
-            margin: 20px auto;
-            padding: 10px;
+        /* === RESPONSIVE === */
+        @media (max-width: 900px) {
+            .taquilla-layout { grid-template-columns: 1fr; }
+            .checkout-panel { position: static; }
+            header nav { display: none; }
+            .hero h1 { font-size: 3.5rem; }
         }
     </style>
 </head>
 <body>
 
     <header>
-        <div class="logo">DTU <span>Desastre Total Ultraviolento</span></div>
-        <p style="color: #999; font-size: 14px;">DEMOSTRACIÓN DE TAQUILLA DIGITAL</p>
+        <div class="logo">DTU <span>MEXICO</span></div>
+        <nav>
+            <ul>
+                <li><a href="#inicio">INICIO</a></li>
+                <li><a href="#taquilla">TAQUILLA EN VIVO</a></li>
+                <li><a href="#roster">ROSTER</a></li>
+                <li><a href="#tienda">TIENDA</a></li>
+            </ul>
+        </nav>
+        <a href="#taquilla" class="btn-header"><i class="fa-solid fa-ticket"></i> COMPRAR BOLETOS</a>
     </header>
 
-    <div class="container">
-        <div class="card">
-            <h2>1. Selecciona tus lugares</h2>
-            <div class="ring-area">RING ULTRAVIOLENTO</div>
+    <section id="inicio" class="hero">
+        <h1>DESASTRE TOTAL ULTRAVIOLENTO</h1>
+        <p>Asegura tu lugar en la arena. Compra oficial, segura y directa.</p>
+        <button class="btn-main" onclick="document.getElementById('taquilla').scrollIntoView({behavior: 'smooth'});">
+            IR A LA TAQUILLA DIGITAL
+        </button>
+    </section>
+
+    <section id="taquilla" class="container">
+        <h2 class="section-title">ELIGE TU ZONA DE DESASTRE</h2>
+        
+        <div class="taquilla-layout">
             
-            <div class="seats-grid" id="seatsContainer">
+            <div class="arena-wrapper">
+                <div class="arena-map">
+                    
+                    <div class="ring">
+                        <div class="ring-poster"></div>
+                    </div>
+
+                    <div id="block-top" class="seat-block block-top"></div>
+                    <div id="block-bottom" class="seat-block block-bottom"></div>
+                    <div id="block-left" class="seat-block block-left"></div>
+                    <div id="block-right" class="seat-block block-right"></div>
+
+                </div>
+                <p style="text-align: center; color: #666; margin-top: 15px; font-size: 14px;">
+                    <i class="fa-solid fa-hand-pointer"></i> Toca los asientos para seleccionarlos. (Desliza si estás en celular)
+                </p>
+            </div>
+
+            <div class="checkout-panel">
+                <h3>TU COMPRA</h3>
+                
+                <div class="leyenda">
+                    <div class="leyenda-item"><div class="color-box" style="background: #00ff00;"></div> Primera Fila - $850</div>
+                    <div class="leyenda-item"><div class="color-box" style="background: #ff0000;"></div> Segunda Fila - $650</div>
+                    <div class="leyenda-item"><div class="color-box" style="background: #0000ff;"></div> Tercera Fila - $450</div>
+                    <div class="leyenda-item"><div class="color-box" style="background: #ffff00;"></div> Cuarta Fila - $350</div>
+                    <div class="leyenda-item"><div class="color-box" style="background: #dddddd;"></div> General - $250</div>
                 </div>
 
-            <div class="legend">
-                <div class="legend-item"><div class="seat"></div> Disponible</div>
-                <div class="legend-item"><div class="seat selected"></div> Tu selección</div>
-                <div class="legend-item"><div class="seat occupied"></div> Vendido</div>
+                <ul class="ticket-list" id="ticket-list">
+                    <li>Aún no has seleccionado lugares.</li>
+                </ul>
+
+                <div class="total-box" id="total-price">$0</div>
+                
+                <button class="btn-comprar" onclick="procesarCompra()">
+                    <i class="fa-solid fa-qrcode"></i> GENERAR BOLETOS
+                </button>
+                <div style="text-align: center; margin-top: 10px; font-size: 20px; color: #888;">
+                    <i class="fa-brands fa-cc-visa"></i> <i class="fa-brands fa-cc-mastercard"></i>
+                    <span style="font-family: Arial; font-weight: bold; font-size: 14px; margin-left: 5px;">OXXO</span>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <section id="roster" class="container" style="background: #050505;">
+        <h2 class="section-title">HARDCORE ELITE</h2>
+        <div class="grid-3">
+            <div class="card">
+                <img src="https://placehold.co/400x500/111/990000?text=LUCHADOR+1&font=Teko" alt="Luchador">
+                <h3>EL TACHUELAS</h3>
+            </div>
+            <div class="card">
+                <img src="https://placehold.co/400x500/111/990000?text=LUCHADOR+2&font=Teko" alt="Luchador">
+                <h3>RAYO CÓSMICO</h3>
+            </div>
+            <div class="card">
+                <img src="https://placehold.co/400x500/111/990000?text=LUCHADOR+3&font=Teko" alt="Luchador">
+                <h3>EL PESTILENCIA</h3>
             </div>
         </div>
+    </section>
 
-        <div class="card summary-card">
-            <h2>Resumen de Compra</h2>
-            <div id="selectionInfo">No has seleccionado lugares.</div>
-            
-            <ul class="price-list">
-                <li class="price-item"><span>Precio Base (Gradas):</span> <span>$250 MXN</span></li>
-                <li class="price-item"><span>Cargos por servicio:</span> <span style="color: #00ff00;">$0 MXN (Promo)</span></li>
-            </ul>
-
-            <div style="font-size: 14px; color: #888;">TOTAL A PAGAR:</div>
-            <div class="total" id="totalPrice">$0 MXN</div>
-
-            <button onclick="simularCompra()">Comprar Boletos</button>
-            <p style="font-size: 12px; color: #666; margin-top: 15px; text-align: center;">
-                Aceptamos Tarjeta, Transferencia y OXXO Pay.
-            </p>
+    <section id="tienda" class="container">
+        <h2 class="section-title">TIENDA OFICIAL</h2>
+        <div class="grid-3">
+            <div class="product">
+                <img src="https://placehold.co/400x400/111/990000?text=MASCARA&font=Teko" alt="Producto">
+                <h3>Máscara Profesional</h3>
+                <p class="price">$1,400 MXN</p>
+                <button class="btn-cart">AÑADIR AL CARRITO</button>
+            </div>
+            <div class="product">
+                <img src="https://placehold.co/400x400/111/990000?text=PLAYERA&font=Teko" alt="Producto">
+                <h3>Playera DTU</h3>
+                <p class="price">$450 MXN</p>
+                <button class="btn-cart">AÑADIR AL CARRITO</button>
+            </div>
         </div>
-    </div>
+    </section>
 
-    <div id="modal">
+    <footer style="text-align: center; padding: 40px; background: #000; border-top: 2px solid #333;">
+        <p>&copy; 2024 DTU. Taquilla Digital desarrollada por Ti.</p>
+    </footer>
+
+    <div id="qrModal">
         <div class="modal-content">
-            <h2 style="color: #00ff00;">¡COMPRA EXITOSA!</h2>
-            <p>Se han generado tus boletos digitales.</p>
-            <div class="qr-mock">
-                <img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=DTU-PROMO-123" alt="QR">
-            </div>
-            <p style="font-size: 14px;">Muestra este código en la entrada de la Arena.</p>
-            <button onclick="document.getElementById('modal').style.display='none'" style="margin-top: 20px; background: #333;">Cerrar Demo</button>
+            <h2>¡ACCESO CONFIRMADO!</h2>
+            <p style="color: #ccc;">Tu pago ha sido procesado con éxito. Presenta este código en la entrada el día del evento.</p>
+            <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=DTU-ACCESO-VIP-2024" alt="Código QR de Acceso">
+            <br>
+            <button class="btn-cart" style="width: 100%; margin-top: 15px;" onclick="document.getElementById('qrModal').style.display='none'">CERRAR</button>
         </div>
     </div>
 
     <script>
-        const container = document.getElementById('seatsContainer');
-        const totalText = document.getElementById('totalPrice');
-        const infoText = document.getElementById('selectionInfo');
-        let selectedCount = 0;
-        const PRICE_PER_SEAT = 250;
+        // Configuración de Zonas y Precios (Basado en la imagen)
+        const zonas = [
+            { clase: 'fila-1', precio: 850, nombre: '1ra Fila' },
+            { clase: 'fila-2', precio: 650, nombre: '2da Fila' },
+            { clase: 'fila-3', precio: 450, nombre: '3ra Fila' },
+            { clase: 'fila-4', precio: 350, nombre: '4ta Fila' },
+            { clase: 'gral', precio: 250, nombre: 'General' }
+        ];
 
-        // Generar 60 asientos de prueba
-        for (let i = 1; i <= 60; i++) {
-            const seat = document.createElement('div');
-            seat.classList.add('seat');
+        let asientosSeleccionados = [];
+
+        // Función para generar filas de asientos en un bloque
+        function generarBloque(idBloque, filasArray, numAsientos) {
+            const bloque = document.getElementById(idBloque);
             
-            // Hacer algunos asientos "ocupados" aleatoriamente
-            if (Math.random() < 0.2) {
-                seat.classList.add('occupied');
-            } else {
-                seat.addEventListener('click', () => toggleSeat(seat));
-            }
-            
-            container.appendChild(seat);
+            filasArray.forEach(zona => {
+                const filaDiv = document.createElement('div');
+                filaDiv.className = 'seat-row';
+                
+                for(let i=0; i<numAsientos; i++) {
+                    const asiento = document.createElement('div');
+                    asiento.className = `seat ${zona.clase}`;
+                    asiento.dataset.precio = zona.precio;
+                    asiento.dataset.nombre = zona.nombre;
+                    
+                    // Simular que algunos ya están ocupados al azar
+                    if(Math.random() < 0.15) {
+                        asiento.classList.add('occupied');
+                    } else {
+                        asiento.onclick = () => toggleAsiento(asiento);
+                    }
+                    filaDiv.appendChild(asiento);
+                }
+                bloque.appendChild(filaDiv);
+            });
         }
 
-        function toggleSeat(seat) {
-            seat.classList.toggle('selected');
-            const selectedSeats = document.querySelectorAll('.seat.selected');
-            selectedCount = selectedSeats.length;
+        // Generar los 4 lados del ring según la imagen
+        // Lado Superior e Inferior (Solo 4 filas numeradas)
+        generarBloque('block-top', [zonas[3], zonas[2], zonas[1], zonas[0]], 15);
+        generarBloque('block-bottom', [zonas[0], zonas[1], zonas[2], zonas[3]], 15);
+        
+        // Lados Izquierdo y Derecho (Tienen las 4 filas + Zona General atrás)
+        generarBloque('block-left', [zonas[4], zonas[4], zonas[3], zonas[2], zonas[1], zonas[0]], 12);
+        generarBloque('block-right', [zonas[0], zonas[1], zonas[2], zonas[3], zonas[4], zonas[4]], 12);
+
+        // Lógica de selección y carrito
+        function toggleAsiento(elemento) {
+            if(elemento.classList.contains('occupied')) return;
+
+            elemento.classList.toggle('selected');
+            actualizarCarrito();
+        }
+
+        function actualizarCarrito() {
+            const seleccionados = document.querySelectorAll('.seat.selected');
+            const listaHTML = document.getElementById('ticket-list');
+            const totalHTML = document.getElementById('total-price');
             
-            updateUI();
-        }
+            let total = 0;
+            listaHTML.innerHTML = ''; // Limpiar lista
 
-        function updateUI() {
-            totalText.innerText = `$${selectedCount * PRICE_PER_SEAT} MXN`;
-            if (selectedCount > 0) {
-                infoText.innerHTML = `Has seleccionado <strong>${selectedCount}</strong> lugar(es).`;
-            } else {
-                infoText.innerText = "No has seleccionado lugares.";
-            }
-        }
-
-        function simularCompra() {
-            if (selectedCount === 0) {
-                alert("Primero selecciona al menos un asiento.");
+            if(seleccionados.length === 0) {
+                listaHTML.innerHTML = '<li>Aún no has seleccionado lugares.</li>';
+                totalHTML.innerText = '$0';
                 return;
             }
-            document.getElementById('modal').style.display = 'grid';
+
+            seleccionados.forEach((asiento, index) => {
+                const precio = parseInt(asiento.dataset.precio);
+                const nombre = asiento.dataset.nombre;
+                total += precio;
+
+                const li = document.createElement('li');
+                li.className = 'ticket-item';
+                li.innerHTML = `<span>1x Boleto (${nombre})</span> <span>$${precio}</span>`;
+                listaHTML.appendChild(li);
+            });
+
+            totalHTML.innerText = `$${total} MXN`;
+        }
+
+        function procesarCompra() {
+            const seleccionados = document.querySelectorAll('.seat.selected');
+            if(seleccionados.length === 0) {
+                alert("Selecciona al menos un asiento en el mapa para continuar.");
+                return;
+            }
+            // Mostrar el modal simulando la llegada del QR
+            document.getElementById('qrModal').style.display = 'flex';
         }
     </script>
 </body>
